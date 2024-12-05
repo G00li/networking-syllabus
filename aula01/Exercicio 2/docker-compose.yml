@@ -1,0 +1,8 @@
+services:
+  ctn1: 
+    image: nginx:latest
+    ports:
+      - 80
+
+  ctn2: 
+    image: nginx:latest

@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  busybox_ipv4:
+    image: busybox
+    command: sleep infinity
+    networks:
+      - ipv4_net
+
+  busybox_ipv6:
+    image: busybox
+    command: sleep infinity
+    networks:
+      - ipv6_net
+
+networks:
+  ipv4_net:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "false" 
+    ipam:
+      config:
+        - subnet: 192.168.1.0/24 
+
+  ipv6_net:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "true" 
+    ipam:
+      config:
+        - subnet: fd00:dead:beef::/64 
