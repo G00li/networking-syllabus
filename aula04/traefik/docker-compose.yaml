@@ -1,0 +1,30 @@
+services:
+  traefik:
+    image: traefik:v2.10
+    container_name: traefik
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80" # Porta para o tráfego HTTP
+      - "8080:8080" # Painel do Traefik
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock" # Para acessar o Docker API
+      - "./aula04/traefik/traefik.yml:/etc/aula04/traefik/traefik.yml" # Configuração adicional opcional
+
+  containerA:
+    image: nginx # Substitua pela imagem do seu container
+    container_name: containerA
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.containerA.rule=PathPrefix(`/a`)"
+      - "traefik.http.services.containerA.loadbalancer.server.port=80"
+
+  containerB:
+    image: nginx # Substitua pela imagem do seu container
+    container_name: containerB
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.containerB.rule=PathPrefix(`/b`)"
+      - "traefik.http.services.containerB.loadbalancer.server.port=80"

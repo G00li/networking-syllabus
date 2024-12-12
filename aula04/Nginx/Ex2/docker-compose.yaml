@@ -1,0 +1,26 @@
+services:
+  nginx-proxy:
+    image: nginx:latest
+    ports:
+      - "80:80"   # Expondo a porta HTTP
+      - "443:443" # Expondo a porta HTTPS
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro # Montando os certificados SSL
+    depends_on:
+      - nginx-web1
+      - nginx-web2
+
+  nginx-web1:
+    image: nginx:latest
+    volumes:
+      - ./web1:/usr/share/nginx/html:ro
+    expose:
+      - "80"
+
+  nginx-web2:
+    image: nginx:latest
+    volumes:
+      - ./web2:/usr/share/nginx/html:ro
+    expose:
+      - "80"
