@@ -5,7 +5,8 @@ services:
       - "80:80"
       - "443:443" # Adiciona suporte a HTTPS
     networks:
-      - net1
+      - net11
+      - net13
     volumes:
       - ./proxy/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./ssl-certs:/etc/nginx/ssl:ro # Monta os certificados SSL
@@ -19,26 +20,26 @@ services:
     expose:
       - "80"
     networks:
-      - net2
+      - net12
+      - net13
     deploy:
       replicas: 2
 
 
 networks:
-  net1:
+  net11:
     driver: bridge
     ipam:
       config:
-        - subnet: 192.168.1.0/24  
-  net2:
+        - subnet: 192.168.7.0/24  
+  net12:
     driver: bridge
     ipam:
       config:
-        - subnet: 192.168.2.0/24
+        - subnet: 192.168.8.0/24
 
-  net3: 
+  net13: 
     driver: bridge
     ipam:
       config:
-        - subnet: 192.168.3.0/24
-        
+        - subnet: 192.168.9.0/24
