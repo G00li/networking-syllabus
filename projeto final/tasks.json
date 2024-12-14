@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "name": "Comprar leite",
+        "description": "Ir ao supermercado para comprar leite."
+    },
+    {
+        "id": 2,
+        "name": "Estudar Python",
+        "description": "Revisar conceitos de FastAPI e Pydantic."
+    },
+    {
+        "id": 3,
+        "name": "Fazer exerc\u00edcios",
+        "description": "Praticar corrida no parque por 30 minutos."
+    },
+    {
+        "id": 4,
+        "name": "Ler um livro",
+        "description": "Ler o pr\u00f3ximo cap\u00edtulo do livro de fic\u00e7\u00e3o cient\u00edfica."
+    }
+]
