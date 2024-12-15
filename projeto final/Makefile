@@ -19,3 +19,6 @@ netls: ## Verifica as networks existentes
 
 stats: ## Verifica se o balanceamento de carga está funcionando 
 	docker stats
+
+depends:
+	pip install -r requirements.txt
