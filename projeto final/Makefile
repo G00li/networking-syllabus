@@ -18,7 +18,4 @@ netls: ## Verifica as networks existentes
 	docker network ls
 
 stats: ## Verifica se o balanceamento de carga está funcionando 
-	docker stats
-
-depends:
-	pip install -r requirements.txt
+	docker stats		
