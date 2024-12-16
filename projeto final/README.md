@@ -26,31 +26,42 @@ O objetivo deste projeto é desenvolver uma aplicação web segura e escalável 
 
 ## Componentes do Projeto
 
-### 1. **Dockerfile**
-
-Define a configuração do container para a aplicação FastAPI, incluindo a instalação de dependências necessárias, cópia de arquivos e a execução do servidor.
-
-### 2. **Makefile**
+### 1. **Makefile**
 
 Automatiza a execução de comandos, como a construção dos containers Docker, reinício da aplicação, e verificação de redes e balanceamento de carga.
 
-### 3. **Docker Compose**
+### 2. **Docker Compose**
 
 O arquivo `docker-compose.yaml` define os serviços necessários para rodar a aplicação, incluindo o NGINX como proxy reverso e o container da aplicação `tasks` com duas réplicas para balanceamento de carga. Além disso, configura redes isoladas para garantir a segurança e a segmentação da infraestrutura.
 
-### 4. **NGINX (nginx.conf)**
+### 3. **Certificados**
+Para criar os certificados viabilizando a segurança do projeto na rede web. Realizei os seguintes passos 
+  #### 3.1. Criar um ficheiro
+  Criei um ficheiro **ssl-certs** para armazenar os certificados `localhost.crt` e `localhost.key`
+  #### 3.2. Gerando um certificado privado (localhost.key)
+  Através do comando: 
+
+    openssl genrsa -out localhost.key 2048
+
+  #### 3.3 Gerando um certificado autofirmado (localhost.crt)
+  Através do comando:
+
+    openssl req -new -x509 -key localhost.key -out localhost.crt -days 365 \ -subj "/C=US/ST=State/L=City/O=Organization/OU=IT/CN=*.local"
+  
+
+### 3. **NGINX (nginx.conf)**
 
 O NGINX é utilizado para realizar o balanceamento de carga entre as réplicas do serviço `tasks`. Além disso, ele é responsável por redirecionar o tráfego HTTP para HTTPS, garantindo comunicação segura entre o cliente e o servidor.
 
-### 5. **FastAPI (main.py)**
+### 4. **FastAPI (main.py)**
 
 A aplicação FastAPI é responsável por fornecer a API que permite operações CRUD (Criar, Ler, Atualizar e Deletar) nas tarefas. Ela lida com os status codes HTTP de forma apropriada para cada operação.
 
-### 6. **Certificados SSL (ssl-certs)**
+### 5. **Certificados SSL (ssl-certs)**
 
 Os certificados SSL garantem que a comunicação entre o cliente e o servidor seja feita de forma segura, utilizando HTTPS.
 
-### 7. **Arquivo de Tarefas (tasks.json)**
+### 6. **Arquivo de Tarefas (tasks.json)**
 
 Armazena os dados das tarefas em formato JSON. A aplicação carrega e salva os dados no arquivo sempre que uma operação CRUD é realizada.
 
