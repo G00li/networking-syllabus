@@ -49,19 +49,39 @@ Para criar os certificados viabilizando a segurança do projeto na rede web. Rea
     openssl req -new -x509 -key localhost.key -out localhost.crt -days 365 \ -subj "/C=US/ST=State/L=City/O=Organization/OU=IT/CN=*.local"
   
 
-### 3. **NGINX (nginx.conf)**
+### 3. Segmentação de Rede
+A aplicação implementa segmentação de rede para proteger e isolar os serviços sensíveis. Os containers estão distribuídos entre três redes distintas:
+
+**net11**: Rede compartilhada entre o nginx-proxy e o container client.
+
+**net12**: Rede exclusiva para o serviço tasks.
+
+**net13**: Rede compartilhada entre nginx-proxy e tasks, para comunicação controlada.
+
+#### Validação da Segmentação
+O container client pode se comunicar com o nginx-proxy (usando ping).
+O container client não consegue acessar diretamente o serviço tasks, pois não estão na mesma rede (net12). Isso garante que a aplicação é acessível apenas via o proxy configurado.
+Este comportamento é comprovado por comandos executados no container client:
+
+Sucesso:
+`ping nginx-proxy`
+
+Falha:
+`ping tasks`
+
+### 4. **NGINX (nginx.conf)**
 
 O NGINX é utilizado para realizar o balanceamento de carga entre as réplicas do serviço `tasks`. Além disso, ele é responsável por redirecionar o tráfego HTTP para HTTPS, garantindo comunicação segura entre o cliente e o servidor.
 
-### 4. **FastAPI (main.py)**
+### 5. **FastAPI (main.py)**
 
 A aplicação FastAPI é responsável por fornecer a API que permite operações CRUD (Criar, Ler, Atualizar e Deletar) nas tarefas. Ela lida com os status codes HTTP de forma apropriada para cada operação.
 
-### 5. **Certificados SSL (ssl-certs)**
+### 6. **Certificados SSL (ssl-certs)**
 
 Os certificados SSL garantem que a comunicação entre o cliente e o servidor seja feita de forma segura, utilizando HTTPS.
 
-### 6. **Arquivo de Tarefas (tasks.json)**
+### 7. **Arquivo de Tarefas (tasks.json)**
 
 Armazena os dados das tarefas em formato JSON. A aplicação carrega e salva os dados no arquivo sempre que uma operação CRUD é realizada.
 
