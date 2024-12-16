@@ -3,13 +3,13 @@ services:
     image: nginx:latest
     ports:
       - "80:80"
-      - "443:443" # Adiciona suporte a HTTPS
+      - "443:443"
     networks:
       - net11
       - net13
     volumes:
       - ./proxy/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./ssl-certs:/etc/nginx/ssl:ro # Monta os certificados SSL
+      - ./ssl-certs:/etc/nginx/ssl:ro 
     depends_on:
       - tasks
 
@@ -24,6 +24,12 @@ services:
       - net13
     deploy:
       replicas: 2
+
+  client: 
+    image: nginx:latest
+    command: sleep infinity
+    networks:
+      - net11
 
 
 networks:
